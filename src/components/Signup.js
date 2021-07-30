@@ -6,16 +6,16 @@ import { firebaseConfig } from '../fbconfig'
 
 
 
-function Login({ setUser }) {
+function Signup({ setUser }) {
     const history = useHistory()
     const handleCancel = () => {
         history.push('/')
     }
-    const handleLogin = ({ email, password}) => {
+    const handleSignUp = ({ email, password}) => {
         if(!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig)
         }
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(results => {
             setUser(results.user)
             history.push('/')
@@ -23,8 +23,8 @@ function Login({ setUser }) {
         .catch(err => alert(err.message))
     }
     return(
-        <Modal title="Login" visible={true} onCancel={handleCancel} footer={null}>
-            <Form name="login" labelCol={{ span: 8 }} wrapperCol={{ span: 16}} onFinish={handleLogin}>
+        <Modal title="Signup" visible={true} onCancel={handleCancel} footer={null}>
+            <Form name="singup" labelCol={{ span: 8 }} wrapperCol={{ span: 16}} onFinish={handleSignUp}>
                 <Form.Item label="Email" name="email" 
                     rules={[ { required: true, message: 'Please enter your email'}, 
                     { type: 'email', message: 'Please enter a valid email'} ]}>
@@ -42,4 +42,4 @@ function Login({ setUser }) {
     )
 }
 
-export default Login
+export default Signup
